@@ -2,13 +2,15 @@ import pandas as pd
 import matplotlib.pylab as plt
 
 show_weight_dist = 'N' # Show weight distribution plot, Y or N
-show_weight_diff = 'Y' # Show weight difference plot, Y or N
+show_weight_diff = 'N' # Show weight difference plot, Y or N
 
 df = pd.read_csv("ideal_weight.csv")
 df.columns = ['id', 'sex', 'actual', 'ideal', 'diff']
 # better way to strip characters?
 df['sex'] = df['sex'].map(lambda x: x.lstrip('\'').rstrip('\''))
+df['sex'] = df['sex'].astype('category')
 del df['id']
+print type(df['sex'])
 
 def weight_distribution():
     '''
@@ -27,6 +29,13 @@ def weight_difference():
     '''
     plt.hist(df['diff'], alpha=0.5)
     plt.show()
+
+
+
+
+
+#Map "sex" to a categorical variable.
+#Are there more women or men in the dataset?
 
 if show_weight_dist == 'Y':
     weight_distribution()
