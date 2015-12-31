@@ -31,16 +31,13 @@ def weight_difference():
     plt.hist(df['diff'], alpha=0.5)
     plt.show()
 
-def predict_sex(actual, ideal, diff):
+def predict_sex(classifier, toPredict):
     '''
     predict_sex
     Predict sex of individual based on their actual weight, ideal weight, and difference between the two using Naive Bayes.
     '''
-    #need to define training data
-    classifier = GaussianNB()
-    classifier.fit(features, label)
-    sex = classifier.predict([[actual, ideal, diff]])
-    print "The predicted sex of someone with an actual weight of %s and ideal weight of %s is %s" % (actual, ideal, sex)
+    sex = classifier.predict(toPredict)
+    print "The predicted sex of someone with an actual weight of %s and ideal weight of %s is %s" % (toPredict[0], toPredict[1], sex[0])
 
 if show_weight_dist == 'Y':
     weight_distribution()
@@ -49,9 +46,9 @@ if show_weight_diff == 'Y':
     weight_difference()
 
 if show_predict_sex == 'Y':
-    predict_sex(145, 160, -15)
-    # predict_sex(160,145, 15)
-
-#Fit a Naive Bayes classifier of sex to actual weight, ideal weight, and diff.
-#How many points were mislabeled? How many points were there in the dataset, total?
-#make sure that predict_sex function is working
+    test1Predict = [145, 160, -15]
+    test2Predict = [160, 145, 15]
+    model = GaussianNB()
+    model.fit(df[['actual', 'ideal', 'diff']], df['sex'])
+    predict_sex(model, test1Predict)
+    predict_sex(model, test2Predict)    
